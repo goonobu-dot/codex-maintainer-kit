@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 import json
 
+from codex_maintainer_kit.config import MaintainerConfig
 from codex_maintainer_kit.scanner import RepositoryScan
 
 
@@ -136,11 +137,10 @@ TASK_DEFINITIONS = {
 ORDER = ["license", "agents", "tests", "ci", "readme", "contributing", "security", "issue_templates", "changelog", "code_of_conduct"]
 
 
-def build_tasks(scan: RepositoryScan) -> list[MaintenanceTask]:
+def build_tasks(scan: RepositoryScan, config: MaintainerConfig | None = None) -> list[MaintenanceTask]:
     tasks = [TASK_DEFINITIONS[key] for key in ORDER if not scan.files.get(key, False)]
-    if tasks:
-        return tasks
-    return [
+    if not tasks:
+        tasks = [
         MaintenanceTask(
             id="codex-maintenance-review",
             title="Run Codex Maintenance Review",
@@ -152,7 +152,16 @@ def build_tasks(scan: RepositoryScan) -> list[MaintenanceTask]:
             suggested_labels=["maintenance", "codex"],
             verification_command="python3 -m pytest -p no:cacheprovider tests -q",
         )
-    ]
+        ]
+    return [_apply_config(task, config) for task in tasks]
+
+
+def _apply_config(task: MaintenanceTask, config: MaintainerConfig | None) -> MaintenanceTask:
+    if config is None:
+        return task
+    verification_command = config.verification_command or task.verification_command
+    suggested_labels = list(dict.fromkeys([*task.suggested_labels, *config.default_labels]))
+    return replace(task, verification_command=verification_command, suggested_labels=suggested_labels)
 
 
 def render_tasks_markdown(scan: RepositoryScan, tasks: list[MaintenanceTask]) -> str:

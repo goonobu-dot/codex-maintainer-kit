@@ -69,6 +69,18 @@ Generate GitHub issue drafts:
 codex-maintainer-kit tasks /path/to/repo --github-issues-dir .github/generated-maintenance-issues
 ```
 
+Customize task output with a local config file:
+
+```toml
+# codex-maintainer-kit.toml
+project_name = "Example OSS Project"
+verification_command = "python3 -m pytest -p no:cacheprovider tests -q"
+release_command = "gh release create vX.Y.Z --title vX.Y.Z --notes-file CHANGELOG.md"
+default_labels = ["maintenance", "codex"]
+```
+
+Currently, `tasks` uses `verification_command` and `default_labels` when generating Markdown, JSON, and GitHub issue drafts. Unknown keys are ignored to keep the config format forwards-compatible.
+
 Preview starter files:
 
 ```bash
@@ -97,6 +109,7 @@ See:
 - [examples/MAINTAINER_BRIEF.generated.md](examples/MAINTAINER_BRIEF.generated.md), generated from this repository
 - [examples/CODEX_TASKS.example.md](examples/CODEX_TASKS.example.md)
 - [examples/CODEX_TASKS.generated.md](examples/CODEX_TASKS.generated.md), generated from this repository
+- [examples/codex-maintainer-kit.toml](examples/codex-maintainer-kit.toml)
 - [schema/codex-tasks.schema.json](schema/codex-tasks.schema.json)
 
 ## Codex for Open Source

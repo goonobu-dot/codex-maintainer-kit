@@ -6,6 +6,7 @@
 - Add a human-reviewed release workflow for Codex-assisted maintenance releases.
 - Add Java, .NET, and Swift project hint detection.
 - Add a JSON schema for `tasks --format json` output.
+- Add `codex-maintainer-kit.toml` support for configured verification commands and default labels.
 
 ## 0.1.1 - 2026-06-14
 

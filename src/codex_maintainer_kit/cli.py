@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 import sys
 
+from codex_maintainer_kit.config import load_config
 from codex_maintainer_kit.renderer import render_maintenance_brief
 from codex_maintainer_kit.scanner import scan_repository
 from codex_maintainer_kit.tasks import build_tasks, render_issue_markdown, render_tasks_json, render_tasks_markdown
@@ -123,7 +124,8 @@ def _init(args: argparse.Namespace) -> int:
 
 def _tasks(args: argparse.Namespace) -> int:
     scan = scan_repository(args.repo)
-    tasks = build_tasks(scan)
+    config = load_config(scan.root)
+    tasks = build_tasks(scan, config=config)
     if args.format == "json":
         output_text = render_tasks_json(scan, tasks)
     else:

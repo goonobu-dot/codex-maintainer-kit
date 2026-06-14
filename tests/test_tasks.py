@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from codex_maintainer_kit.scanner import GitState, RepositoryScan
+from codex_maintainer_kit.config import MaintainerConfig
 from codex_maintainer_kit.tasks import (
     build_tasks,
     render_issue_markdown,
@@ -60,6 +61,32 @@ def test_build_tasks_adds_review_task_when_no_foundational_gaps_exist() -> None:
 
     assert len(tasks) == 1
     assert tasks[0].id == "codex-maintenance-review"
+
+
+def test_build_tasks_applies_configured_verification_command_and_labels() -> None:
+    scan = RepositoryScan(
+        root=Path("/repo/demo"),
+        files={
+            "readme": True,
+            "license": False,
+            "contributing": True,
+            "code_of_conduct": True,
+            "security": True,
+            "changelog": True,
+            "agents": True,
+            "issue_templates": True,
+            "ci": True,
+            "tests": True,
+        },
+        project_hints=["javascript"],
+        git_state=GitState(status="clean", changed_files=[]),
+    )
+    config = MaintainerConfig(verification_command="npm test", default_labels=["custom"])
+
+    task = build_tasks(scan, config=config)[0]
+
+    assert task.verification_command == "npm test"
+    assert "custom" in task.suggested_labels
 
 
 def test_render_tasks_markdown_includes_completion_and_prompt() -> None:

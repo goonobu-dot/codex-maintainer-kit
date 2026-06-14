@@ -1,0 +1,4 @@
+project_name = "Example OSS Project"
+verification_command = "python3 -m pytest -p no:cacheprovider tests -q"
+release_command = "gh release create vX.Y.Z --title vX.Y.Z --notes-file CHANGELOG.md"
+default_labels = ["maintenance", "codex"]

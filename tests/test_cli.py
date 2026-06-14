@@ -66,3 +66,20 @@ def test_tasks_command_writes_github_issue_files(tmp_path: Path) -> None:
     assert "01-add-license.md" in files
     assert "02-add-agents.md" in files
     assert (issues_dir / "01-add-license.md").read_text(encoding="utf-8").startswith("# Add LICENSE")
+
+
+def test_tasks_command_uses_local_config_file(tmp_path: Path) -> None:
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / "README.md").write_text("# Demo\n", encoding="utf-8")
+    (repo / "codex-maintainer-kit.toml").write_text(
+        'verification_command = "npm test"\ndefault_labels = ["custom"]\n',
+        encoding="utf-8",
+    )
+    output = tmp_path / "CODEX_TASKS.md"
+
+    exit_code = main(["tasks", str(repo), "--output", str(output)])
+
+    assert exit_code == 0
+    text = output.read_text(encoding="utf-8")
+    assert "`npm test`" in text
