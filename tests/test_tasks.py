@@ -113,6 +113,23 @@ def test_render_tasks_json_is_machine_readable() -> None:
     assert payload["repository"] == "/repo/demo"
     assert payload["tasks"][0]["id"] == "add-license"
     assert payload["tasks"][0]["completion_criteria"]
+    assert payload["tasks"][0]["suggested_labels"]
+    assert payload["tasks"][0]["verification_command"]
+
+
+def test_task_json_schema_documents_public_output_fields() -> None:
+    schema_path = Path(__file__).resolve().parents[1] / "schema" / "codex-tasks.schema.json"
+
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    task_required = schema["properties"]["tasks"]["items"]["required"]
+
+    assert schema["$schema"] == "https://json-schema.org/draft/2020-12/schema"
+    assert "repository" in schema["required"]
+    assert "tasks" in schema["required"]
+    assert "id" in task_required
+    assert "codex_prompt" in task_required
+    assert "suggested_labels" in task_required
+    assert "verification_command" in task_required
 
 
 def test_render_issue_markdown_is_ready_to_paste_into_github() -> None:

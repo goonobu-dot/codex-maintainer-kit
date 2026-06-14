@@ -5,6 +5,7 @@
 - Improve generated issue drafts with suggested labels, verification commands, and maintainer checklists.
 - Add a human-reviewed release workflow for Codex-assisted maintenance releases.
 - Add Java, .NET, and Swift project hint detection.
+- Add a JSON schema for `tasks --format json` output.
 
 ## 0.1.1 - 2026-06-14
 

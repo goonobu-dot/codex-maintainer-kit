@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/goonobu-dot/codex-maintainer-kit/schema/codex-tasks.schema.json",
+  "title": "Codex Maintainer Kit Task Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["repository", "project_hints", "tasks"],
+  "properties": {
+    "repository": {
+      "type": "string",
+      "description": "Absolute or user-provided repository path scanned by the CLI."
+    },
+    "project_hints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Detected project language or package ecosystem hints."
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "priority",
+          "summary",
+          "codex_prompt",
+          "completion_criteria",
+          "review_notes",
+          "suggested_labels",
+          "verification_command"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Stable task identifier suitable for filenames or issue references."
+          },
+          "title": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          },
+          "summary": {
+            "type": "string"
+          },
+          "codex_prompt": {
+            "type": "string",
+            "description": "Prompt a maintainer can hand to Codex for this task."
+          },
+          "completion_criteria": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "review_notes": {
+            "type": "string",
+            "description": "Human review guidance before merging the task output."
+          },
+          "suggested_labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "verification_command": {
+            "type": "string",
+            "description": "Suggested command for verifying the task."
+          }
+        }
+      }
+    }
+  }
+}

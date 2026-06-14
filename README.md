@@ -61,6 +61,8 @@ Generate machine-readable tasks:
 codex-maintainer-kit tasks /path/to/repo --format json --output codex-tasks.json
 ```
 
+The JSON output shape is documented in [schema/codex-tasks.schema.json](schema/codex-tasks.schema.json).
+
 Generate GitHub issue drafts:
 
 ```bash
@@ -95,6 +97,7 @@ See:
 - [examples/MAINTAINER_BRIEF.generated.md](examples/MAINTAINER_BRIEF.generated.md), generated from this repository
 - [examples/CODEX_TASKS.example.md](examples/CODEX_TASKS.example.md)
 - [examples/CODEX_TASKS.generated.md](examples/CODEX_TASKS.generated.md), generated from this repository
+- [schema/codex-tasks.schema.json](schema/codex-tasks.schema.json)
 
 ## Codex for Open Source
 
