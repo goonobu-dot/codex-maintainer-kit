@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 - 2026-06-14
+
+- Fix GitHub Actions test dependency installation by adding the `dev` extra.
+
 ## 0.1.0 - 2026-06-14
 
 - Add repository scanner for maintainer files, project hints, tests, CI, and Git state.
