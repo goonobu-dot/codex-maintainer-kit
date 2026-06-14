@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Improve generated issue drafts with suggested labels, verification commands, and maintainer checklists.
+- Add a human-reviewed release workflow for Codex-assisted maintenance releases.
 
 ## 0.1.1 - 2026-06-14
 

@@ -104,6 +104,7 @@ The application notes and publishing checklist live in:
 
 - [docs/CODEX_FOR_OSS_APPLICATION.md](docs/CODEX_FOR_OSS_APPLICATION.md)
 - [docs/PUBLISHING_CHECKLIST.md](docs/PUBLISHING_CHECKLIST.md)
+- [docs/RELEASE_WORKFLOW.md](docs/RELEASE_WORKFLOW.md)
 
 ## How This Differs From Existing Tools
 
