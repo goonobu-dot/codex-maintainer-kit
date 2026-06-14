@@ -74,11 +74,19 @@ def _project_hints(root: Path) -> list[str]:
         ("rust", ["Cargo.toml"]),
         ("ruby", ["Gemfile"]),
         ("php", ["composer.json"]),
+        ("java", ["pom.xml", "build.gradle", "build.gradle.kts"]),
+        ("swift", ["Package.swift"]),
     ]
     for hint, names in markers:
         if _any_exists(root, names):
             hints.append(hint)
+    if _has_any_pattern(root, ["*.csproj", "*.sln"]):
+        hints.append("dotnet")
     return hints or ["unknown"]
+
+
+def _has_any_pattern(root: Path, patterns: list[str]) -> bool:
+    return any(next(root.rglob(pattern), None) is not None for pattern in patterns)
 
 
 def _git_state(root: Path, git_status_output: str | None) -> GitState:

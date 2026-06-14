@@ -35,3 +35,15 @@ def test_scan_repository_detects_dirty_git_status(tmp_path: Path) -> None:
 
     assert scan.git_state.status == "dirty"
     assert scan.git_state.changed_files == ["README.md", "notes.md"]
+
+
+def test_scan_repository_detects_additional_project_hints(tmp_path: Path) -> None:
+    (tmp_path / "pom.xml").write_text("<project />\n", encoding="utf-8")
+    (tmp_path / "Package.swift").write_text("// swift-tools-version: 6.0\n", encoding="utf-8")
+    (tmp_path / "Demo.csproj").write_text("<Project />\n", encoding="utf-8")
+
+    scan = scan_repository(tmp_path)
+
+    assert "java" in scan.project_hints
+    assert "swift" in scan.project_hints
+    assert "dotnet" in scan.project_hints
