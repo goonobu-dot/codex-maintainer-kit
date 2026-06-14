@@ -31,6 +31,7 @@ Codex can help with that work, but it needs clear repository context and human r
   - human review rule
 - Creates starter maintainer files with `init`.
 - Turns readiness gaps into `CODEX_TASKS.md`, JSON, and GitHub issue Markdown files with `tasks`.
+- Adds suggested labels, verification commands, and maintainer review checklists to generated issue drafts.
 
 ## Installation
 

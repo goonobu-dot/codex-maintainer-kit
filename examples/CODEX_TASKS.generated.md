@@ -19,6 +19,10 @@ Review this repository as an open source maintainer. Look for stale documentatio
 - [ ] The relevant test or verification command is identified.
 - [ ] A human maintainer reviews the diff before merge.
 
+### Verification Command
+
+`python3 -m pytest -p no:cacheprovider tests -q`
+
 ### Human Review
 
 Human review should confirm the proposed change is useful and small enough to merge safely.

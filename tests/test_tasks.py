@@ -138,5 +138,7 @@ def test_render_issue_markdown_is_ready_to_paste_into_github() -> None:
     issue = render_issue_markdown(task)
 
     assert issue.startswith("# Add LICENSE")
+    assert "## Suggested Labels" in issue
     assert "## Codex Prompt" in issue
+    assert "## Verification Command" in issue
     assert "## Human Review" in issue

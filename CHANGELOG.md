@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Improve generated issue drafts with suggested labels, verification commands, and maintainer checklists.
+
 ## 0.1.1 - 2026-06-14
 
 - Fix GitHub Actions test dependency installation by adding the `dev` extra.

@@ -15,6 +15,8 @@ class MaintenanceTask:
     codex_prompt: str
     completion_criteria: list[str]
     review_notes: str
+    suggested_labels: list[str]
+    verification_command: str
 
 
 TASK_DEFINITIONS = {
@@ -26,6 +28,8 @@ TASK_DEFINITIONS = {
         codex_prompt="Add an MIT LICENSE file if the project owner approves MIT, then update README license references if needed.",
         completion_criteria=["A LICENSE file exists.", "README license references are accurate.", "No source files are changed unnecessarily."],
         review_notes="Human review must confirm the intended license before merge.",
+        suggested_labels=["maintenance", "documentation"],
+        verification_command="python3 -m pytest -p no:cacheprovider tests -q",
     ),
     "agents": MaintenanceTask(
         id="add-agents",
@@ -35,6 +39,8 @@ TASK_DEFINITIONS = {
         codex_prompt="Create AGENTS.md with the project purpose, development commands, testing command, and human review rule.",
         completion_criteria=["AGENTS.md exists.", "The test command is documented.", "The file says AI-generated changes require human review."],
         review_notes="Human review should confirm the instructions match the real repository workflow.",
+        suggested_labels=["maintenance", "documentation", "codex"],
+        verification_command="python3 -m pytest -p no:cacheprovider tests -q",
     ),
     "tests": MaintenanceTask(
         id="add-tests",
@@ -44,6 +50,8 @@ TASK_DEFINITIONS = {
         codex_prompt="Identify the smallest user-visible behavior in this repo and add tests that cover it before changing implementation code.",
         completion_criteria=["A test directory or test files exist.", "The documented test command passes.", "Tests cover behavior rather than implementation details."],
         review_notes="Human review should inspect whether tests would fail for a real regression.",
+        suggested_labels=["testing", "maintenance"],
+        verification_command="python3 -m pytest -p no:cacheprovider tests -q",
     ),
     "ci": MaintenanceTask(
         id="add-ci",
@@ -53,6 +61,8 @@ TASK_DEFINITIONS = {
         codex_prompt="Add a GitHub Actions workflow that installs the project and runs the documented test command on pull requests.",
         completion_criteria=["A CI workflow exists.", "It runs on pull_request.", "It executes the documented test command."],
         review_notes="Human review should confirm the workflow matches the project language and does not require secrets.",
+        suggested_labels=["ci", "maintenance"],
+        verification_command="gh run list --limit 1",
     ),
     "readme": MaintenanceTask(
         id="update-readme",
@@ -62,6 +72,8 @@ TASK_DEFINITIONS = {
         codex_prompt="Update README with a concise project description, installation instructions, usage examples, and maintainer workflow.",
         completion_criteria=["README explains who the project is for.", "README includes install and usage examples.", "README names the verification command."],
         review_notes="Human review should confirm claims are accurate and not overstated.",
+        suggested_labels=["documentation"],
+        verification_command="python3 -m pytest -p no:cacheprovider tests -q",
     ),
     "contributing": MaintenanceTask(
         id="add-contributing",
@@ -71,6 +83,8 @@ TASK_DEFINITIONS = {
         codex_prompt="Add CONTRIBUTING.md with local setup, test command, pull request expectations, and AI-assisted contribution rules.",
         completion_criteria=["CONTRIBUTING.md exists.", "Local setup is documented.", "Pull request expectations are clear."],
         review_notes="Human review should confirm the workflow is realistic for new contributors.",
+        suggested_labels=["documentation", "maintenance"],
+        verification_command="python3 -m pytest -p no:cacheprovider tests -q",
     ),
     "security": MaintenanceTask(
         id="add-security",
@@ -80,6 +94,8 @@ TASK_DEFINITIONS = {
         codex_prompt="Add SECURITY.md with vulnerability reporting instructions and scope notes for this project.",
         completion_criteria=["SECURITY.md exists.", "It explains how to report vulnerabilities.", "It avoids asking users to disclose sensitive issues publicly."],
         review_notes="Human review should confirm the contact path is correct before publishing.",
+        suggested_labels=["security", "documentation"],
+        verification_command="python3 -m pytest -p no:cacheprovider tests -q",
     ),
     "issue_templates": MaintenanceTask(
         id="add-issue-templates",
@@ -89,6 +105,8 @@ TASK_DEFINITIONS = {
         codex_prompt="Add GitHub issue templates for bugs, documentation improvements, and maintenance tasks with verification fields.",
         completion_criteria=["Issue templates exist.", "Templates ask for expected behavior or goal.", "Templates include a verification section."],
         review_notes="Human review should confirm templates reduce ambiguity instead of adding process overhead.",
+        suggested_labels=["maintenance", "github"],
+        verification_command="python3 -m pytest -p no:cacheprovider tests -q",
     ),
     "changelog": MaintenanceTask(
         id="add-changelog",
@@ -98,6 +116,8 @@ TASK_DEFINITIONS = {
         codex_prompt="Add CHANGELOG.md with an initial unreleased or v0.1.0 section summarizing the current public behavior.",
         completion_criteria=["CHANGELOG.md exists.", "The first section matches the current project state.", "No future features are claimed as shipped."],
         review_notes="Human review should confirm the release notes match actual code.",
+        suggested_labels=["release", "documentation"],
+        verification_command="python3 -m pytest -p no:cacheprovider tests -q",
     ),
     "code_of_conduct": MaintenanceTask(
         id="add-code-of-conduct",
@@ -107,6 +127,8 @@ TASK_DEFINITIONS = {
         codex_prompt="Add a concise CODE_OF_CONDUCT.md that sets respectful collaboration expectations for contributors.",
         completion_criteria=["CODE_OF_CONDUCT.md exists.", "It sets behavior expectations.", "It names how maintainers can respond to violations."],
         review_notes="Human review should confirm the policy fits the maintainer's actual moderation capacity.",
+        suggested_labels=["documentation", "community"],
+        verification_command="python3 -m pytest -p no:cacheprovider tests -q",
     ),
 }
 
@@ -127,6 +149,8 @@ def build_tasks(scan: RepositoryScan) -> list[MaintenanceTask]:
             codex_prompt="Review this repository as an open source maintainer. Look for stale documentation, missing edge-case tests, unclear setup instructions, and small safe improvements. Propose one focused change and explain how to verify it.",
             completion_criteria=["One focused improvement is proposed.", "The relevant test or verification command is identified.", "A human maintainer reviews the diff before merge."],
             review_notes="Human review should confirm the proposed change is useful and small enough to merge safely.",
+            suggested_labels=["maintenance", "codex"],
+            verification_command="python3 -m pytest -p no:cacheprovider tests -q",
         )
     ]
 
@@ -157,7 +181,7 @@ def render_tasks_markdown(scan: RepositoryScan, tasks: list[MaintenanceTask]) ->
             ]
         )
         lines.extend(f"- [ ] {criterion}" for criterion in task.completion_criteria)
-        lines.extend(["", "### Human Review", "", task.review_notes, ""])
+        lines.extend(["", "### Verification Command", "", f"`{task.verification_command}`", "", "### Human Review", "", task.review_notes, ""])
     return "\n".join(lines)
 
 
@@ -176,6 +200,10 @@ def render_issue_markdown(task: MaintenanceTask) -> str:
         "",
         f"Priority: `{task.priority}`",
         "",
+        "## Suggested Labels",
+        "",
+        ", ".join(f"`{label}`" for label in task.suggested_labels),
+        "",
         "## Summary",
         "",
         task.summary,
@@ -188,5 +216,23 @@ def render_issue_markdown(task: MaintenanceTask) -> str:
         "",
     ]
     lines.extend(f"- [ ] {criterion}" for criterion in task.completion_criteria)
-    lines.extend(["", "## Human Review", "", task.review_notes, ""])
+    lines.extend(
+        [
+            "",
+            "## Verification Command",
+            "",
+            f"`{task.verification_command}`",
+            "",
+            "## Maintainer Checklist",
+            "",
+            "- [ ] The Codex prompt is scoped to one change.",
+            "- [ ] The verification command is practical for this repository.",
+            "- [ ] The final diff is reviewed by a human maintainer before merge.",
+            "",
+            "## Human Review",
+            "",
+            task.review_notes,
+            "",
+        ]
+    )
     return "\n".join(lines)
