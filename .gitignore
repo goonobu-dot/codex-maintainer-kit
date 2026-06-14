@@ -1,0 +1,8 @@
+.pytest_cache/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.venv/
+MAINTAINER_BRIEF.md
