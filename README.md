@@ -24,6 +24,7 @@ Codex can help with that work, but it needs clear repository context and human r
 - Detects common maintainer files such as `README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `AGENTS.md`, issue templates, CI workflows, and tests.
 - Detects simple project hints such as Python, JavaScript, Go, Rust, Ruby, PHP, Java, .NET, and Swift markers.
 - Summarizes current Git working-tree changes.
+- Generates an OSS maintenance audit with a health score, maintainer essentials checklist, and prioritized next actions.
 - Generates a Markdown maintainer brief with:
   - repository readiness checklist
   - Codex task queue
@@ -54,6 +55,12 @@ Use [`codex-maintainer-action`](https://github.com/goonobu-dot/codex-maintainer-
 The action runs this CLI and uploads `MAINTAINER_BRIEF.md`, `CODEX_TASKS.md`, and `codex-tasks.json` as workflow artifacts.
 
 ## Usage
+
+Generate an OSS maintenance audit:
+
+```bash
+codex-maintainer-kit audit /path/to/repo --output OSS_MAINTENANCE_AUDIT.md
+```
 
 Generate a maintainer brief:
 
@@ -117,6 +124,7 @@ Existing files are skipped unless `--force` is passed.
 
 See:
 
+- [examples/OSS_MAINTENANCE_AUDIT.generated.md](examples/OSS_MAINTENANCE_AUDIT.generated.md), generated from this repository
 - [examples/MAINTAINER_BRIEF.example.md](examples/MAINTAINER_BRIEF.example.md)
 - [examples/MAINTAINER_BRIEF.generated.md](examples/MAINTAINER_BRIEF.generated.md), generated from this repository
 - [examples/CODEX_TASKS.example.md](examples/CODEX_TASKS.example.md)
@@ -145,13 +153,14 @@ Codex Maintainer Kit focuses on a narrower workflow: creating a practical mainte
 
 ## Maintainer Workflow
 
-1. Run `codex-maintainer-kit brief`, or run `codex-maintainer-action` in GitHub Actions.
-2. Review the generated checklist.
-3. Run `codex-maintainer-kit tasks`.
-4. Convert the generated task file or issue drafts into scoped maintenance work.
-5. Ask Codex to make the smallest useful change.
-6. Run tests and inspect the diff.
-7. Merge only after human review.
+1. Run `codex-maintainer-kit audit` to understand the repository's maintenance health.
+2. Run `codex-maintainer-kit brief`, or run `codex-maintainer-action` in GitHub Actions.
+3. Review the generated checklist.
+4. Run `codex-maintainer-kit tasks`.
+5. Convert the generated task file or issue drafts into scoped maintenance work.
+6. Ask Codex to make the smallest useful change.
+7. Run tests and inspect the diff.
+8. Merge only after human review.
 
 ## Development
 
@@ -165,6 +174,7 @@ Run the CLI without installing:
 
 ```bash
 PYTHONPATH=src python3 -m codex_maintainer_kit.cli brief . --output /tmp/maintainer-brief.md
+PYTHONPATH=src python3 -m codex_maintainer_kit.cli audit . --output /tmp/oss-maintenance-audit.md
 PYTHONPATH=src python3 -m codex_maintainer_kit.cli tasks . --output /tmp/codex-tasks.md
 ```
 

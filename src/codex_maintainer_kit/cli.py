@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 import sys
 
+from codex_maintainer_kit.audit import build_audit_report, render_audit_markdown
 from codex_maintainer_kit.config import load_config
 from codex_maintainer_kit.renderer import render_maintenance_brief
 from codex_maintainer_kit.scanner import scan_repository
@@ -56,6 +57,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
 
+    if args.command == "audit":
+        return _audit(args)
     if args.command == "brief":
         return _brief(args)
     if args.command == "init":
@@ -74,6 +77,10 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     subparsers = parser.add_subparsers(dest="command")
 
+    audit = subparsers.add_parser("audit", help="Generate an OSS maintenance health audit.")
+    audit.add_argument("repo", nargs="?", default=".", help="Repository path to inspect.")
+    audit.add_argument("--output", "-o", help="Write Markdown to this file instead of stdout.")
+
     brief = subparsers.add_parser("brief", help="Generate a Codex-ready maintainer brief.")
     brief.add_argument("repo", nargs="?", default=".", help="Repository path to inspect.")
     brief.add_argument("--output", "-o", help="Write Markdown to this file instead of stdout.")
@@ -89,6 +96,19 @@ def _build_parser() -> argparse.ArgumentParser:
     tasks.add_argument("--format", choices=["markdown", "json"], default="markdown", help="Task output format.")
     tasks.add_argument("--github-issues-dir", help="Write one GitHub issue Markdown file per task.")
     return parser
+
+
+def _audit(args: argparse.Namespace) -> int:
+    scan = scan_repository(args.repo)
+    report = build_audit_report(scan)
+    markdown = render_audit_markdown(report)
+    if args.output:
+        output = Path(args.output)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(markdown, encoding="utf-8")
+    else:
+        print(markdown)
+    return 0
 
 
 def _brief(args: argparse.Namespace) -> int:
