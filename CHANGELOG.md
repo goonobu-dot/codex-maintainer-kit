@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.3.0 - 2026-06-15
+
 - Add `codex-maintainer-kit review` for human maintainer review briefs from current working-tree changes.
 
 ## 0.2.0 - 2026-06-15
