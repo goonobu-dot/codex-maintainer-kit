@@ -41,6 +41,21 @@ def test_tasks_command_writes_markdown_file(tmp_path: Path) -> None:
     assert "## Task 1: Add LICENSE" in text
 
 
+def test_audit_command_writes_markdown_file(tmp_path: Path) -> None:
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / "README.md").write_text("# Demo\n", encoding="utf-8")
+    output = tmp_path / "OSS_MAINTENANCE_AUDIT.md"
+
+    exit_code = main(["audit", str(repo), "--output", str(output)])
+
+    assert exit_code == 0
+    text = output.read_text(encoding="utf-8")
+    assert text.startswith("# OSS Maintenance Audit")
+    assert "Health score:" in text
+    assert "## Prioritized Next Actions" in text
+
+
 def test_tasks_command_writes_json_file(tmp_path: Path) -> None:
     repo = tmp_path / "repo"
     repo.mkdir()

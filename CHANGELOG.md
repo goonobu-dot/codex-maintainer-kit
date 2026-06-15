@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add `codex-maintainer-kit audit` for OSS maintenance health scoring and prioritized next actions.
 - Improve generated issue drafts with suggested labels, verification commands, and maintainer checklists.
 - Add a human-reviewed release workflow for Codex-assisted maintenance releases.
 - Add Java, .NET, and Swift project hint detection.
