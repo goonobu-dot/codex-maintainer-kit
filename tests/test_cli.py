@@ -56,6 +56,21 @@ def test_audit_command_writes_markdown_file(tmp_path: Path) -> None:
     assert "## Prioritized Next Actions" in text
 
 
+def test_review_command_writes_markdown_file(tmp_path: Path) -> None:
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / ".git").mkdir()
+    output = tmp_path / "CODEX_REVIEW.md"
+
+    exit_code = main(["review", str(repo), "--output", str(output)])
+
+    assert exit_code == 0
+    text = output.read_text(encoding="utf-8")
+    assert text.startswith("# Codex Change Review")
+    assert "Risk level:" in text
+    assert "## Maintainer Review Checklist" in text
+
+
 def test_tasks_command_writes_json_file(tmp_path: Path) -> None:
     repo = tmp_path / "repo"
     repo.mkdir()

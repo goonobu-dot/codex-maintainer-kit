@@ -33,6 +33,7 @@ Codex can help with that work, but it needs clear repository context and human r
 - Creates starter maintainer files with `init`.
 - Turns readiness gaps into `CODEX_TASKS.md`, JSON, and GitHub issue Markdown files with `tasks`.
 - Adds suggested labels, verification commands, and maintainer review checklists to generated issue drafts.
+- Generates `CODEX_REVIEW.md` from the current working-tree changes so maintainers can review AI-assisted diffs before merge.
 
 ## Installation
 
@@ -72,6 +73,12 @@ Generate Codex-ready maintenance tasks:
 
 ```bash
 codex-maintainer-kit tasks /path/to/repo --output CODEX_TASKS.md
+```
+
+Generate a human maintainer review brief for current changes:
+
+```bash
+codex-maintainer-kit review /path/to/repo --output CODEX_REVIEW.md
 ```
 
 Generate machine-readable tasks:
@@ -129,6 +136,7 @@ See:
 - [examples/MAINTAINER_BRIEF.generated.md](examples/MAINTAINER_BRIEF.generated.md), generated from this repository
 - [examples/CODEX_TASKS.example.md](examples/CODEX_TASKS.example.md)
 - [examples/CODEX_TASKS.generated.md](examples/CODEX_TASKS.generated.md), generated from this repository
+- [examples/CODEX_REVIEW.example.md](examples/CODEX_REVIEW.example.md)
 - [examples/codex-maintainer-kit.toml](examples/codex-maintainer-kit.toml)
 - [schema/codex-tasks.schema.json](schema/codex-tasks.schema.json)
 
@@ -159,8 +167,9 @@ Codex Maintainer Kit focuses on a narrower workflow: creating a practical mainte
 4. Run `codex-maintainer-kit tasks`.
 5. Convert the generated task file or issue drafts into scoped maintenance work.
 6. Ask Codex to make the smallest useful change.
-7. Run tests and inspect the diff.
-8. Merge only after human review.
+7. Run `codex-maintainer-kit review` to create a focused review brief for the current diff.
+8. Run tests and inspect the diff.
+9. Merge only after human review.
 
 ## Development
 
@@ -176,6 +185,7 @@ Run the CLI without installing:
 PYTHONPATH=src python3 -m codex_maintainer_kit.cli brief . --output /tmp/maintainer-brief.md
 PYTHONPATH=src python3 -m codex_maintainer_kit.cli audit . --output /tmp/oss-maintenance-audit.md
 PYTHONPATH=src python3 -m codex_maintainer_kit.cli tasks . --output /tmp/codex-tasks.md
+PYTHONPATH=src python3 -m codex_maintainer_kit.cli review . --output /tmp/codex-review.md
 ```
 
 ## License

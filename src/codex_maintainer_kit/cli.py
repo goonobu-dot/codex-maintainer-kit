@@ -7,6 +7,7 @@ import sys
 from codex_maintainer_kit.audit import build_audit_report, render_audit_markdown
 from codex_maintainer_kit.config import load_config
 from codex_maintainer_kit.renderer import render_maintenance_brief
+from codex_maintainer_kit.review import build_review_report, render_review_markdown
 from codex_maintainer_kit.scanner import scan_repository
 from codex_maintainer_kit.tasks import build_tasks, render_issue_markdown, render_tasks_json, render_tasks_markdown
 
@@ -63,6 +64,8 @@ def main(argv: list[str] | None = None) -> int:
         return _brief(args)
     if args.command == "init":
         return _init(args)
+    if args.command == "review":
+        return _review(args)
     if args.command == "tasks":
         return _tasks(args)
 
@@ -89,6 +92,10 @@ def _build_parser() -> argparse.ArgumentParser:
     init.add_argument("repo", nargs="?", default=".", help="Repository path to update.")
     init.add_argument("--dry-run", action="store_true", help="List files that would be written.")
     init.add_argument("--force", action="store_true", help="Overwrite existing files.")
+
+    review = subparsers.add_parser("review", help="Generate a human maintainer review brief for current changes.")
+    review.add_argument("repo", nargs="?", default=".", help="Repository path to inspect.")
+    review.add_argument("--output", "-o", help="Write Markdown to this file instead of stdout.")
 
     tasks = subparsers.add_parser("tasks", help="Generate Codex-ready maintenance tasks.")
     tasks.add_argument("repo", nargs="?", default=".", help="Repository path to inspect.")
@@ -139,6 +146,20 @@ def _init(args: argparse.Namespace) -> int:
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(content, encoding="utf-8")
         print(f"wrote {relative_path}")
+    return 0
+
+
+def _review(args: argparse.Namespace) -> int:
+    scan = scan_repository(args.repo)
+    config = load_config(scan.root)
+    report = build_review_report(scan, verification_command=config.verification_command)
+    markdown = render_review_markdown(report)
+    if args.output:
+        output = Path(args.output)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(markdown, encoding="utf-8")
+    else:
+        print(markdown)
     return 0
 
 
