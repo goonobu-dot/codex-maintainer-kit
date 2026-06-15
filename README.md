@@ -48,12 +48,12 @@ python3 -m pip install -e .
 Use [`codex-maintainer-action`](https://github.com/goonobu-dot/codex-maintainer-action) when you want GitHub Actions to generate maintenance artifacts automatically:
 
 ```yaml
-- uses: goonobu-dot/codex-maintainer-action@v0.1.0
+- uses: goonobu-dot/codex-maintainer-action@v0.2.0
   with:
     output-dir: codex-maintenance
 ```
 
-The action runs this CLI and uploads `MAINTAINER_BRIEF.md`, `CODEX_TASKS.md`, and `codex-tasks.json` as workflow artifacts.
+The action runs this CLI, writes a GitHub Actions job summary, and uploads `OSS_MAINTENANCE_AUDIT.md`, `MAINTAINER_BRIEF.md`, `CODEX_TASKS.md`, `codex-tasks.json`, and `CODEX_REVIEW.md` as workflow artifacts.
 
 ## Usage
 

@@ -7,8 +7,10 @@ Use this checklist before applying to Codex for Open Source.
 - [ ] All tests pass with `python3 -m pytest -p no:cacheprovider tests -q`.
 - [ ] README explains purpose, install, usage, and maintainer workflow.
 - [ ] Examples are present:
+  - `examples/OSS_MAINTENANCE_AUDIT.generated.md`
   - `examples/MAINTAINER_BRIEF.generated.md`
   - `examples/CODEX_TASKS.generated.md`
+  - `examples/CODEX_REVIEW.example.md`
 - [ ] Maintainer docs are present:
   - `AGENTS.md`
   - `CONTRIBUTING.md`
@@ -16,13 +18,13 @@ Use this checklist before applying to Codex for Open Source.
   - `CODE_OF_CONDUCT.md`
   - `CHANGELOG.md`
 - [ ] GitHub Actions workflow is present.
-- [ ] `v0.1.0` tag exists.
+- [ ] Latest release tag exists.
 
 ## GitHub
 
 - [ ] Create a public GitHub repository named `codex-maintainer-kit`.
 - [ ] Push the local `main` branch.
-- [ ] Push the `v0.1.0` tag.
+- [ ] Push the latest release tag.
 - [ ] Confirm GitHub profile visibility is public.
 - [ ] Create 2-3 public issues:
   - Improve generated issue templates.
