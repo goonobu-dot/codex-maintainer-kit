@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.2.0 - 2026-06-15
+
 - Add `codex-maintainer-kit audit` for OSS maintenance health scoring and prioritized next actions.
 - Improve generated issue drafts with suggested labels, verification commands, and maintainer checklists.
 - Add a human-reviewed release workflow for Codex-assisted maintenance releases.
