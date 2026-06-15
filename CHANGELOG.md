@@ -7,6 +7,7 @@
 - Add Java, .NET, and Swift project hint detection.
 - Add a JSON schema for `tasks --format json` output.
 - Add `codex-maintainer-kit.toml` support for configured verification commands and default labels.
+- Link to the companion `codex-maintainer-action` GitHub Action.
 
 ## 0.1.1 - 2026-06-14
 

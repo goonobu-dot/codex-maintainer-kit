@@ -41,6 +41,18 @@ From a local checkout:
 python3 -m pip install -e .
 ```
 
+## GitHub Action
+
+Use [`codex-maintainer-action`](https://github.com/goonobu-dot/codex-maintainer-action) when you want GitHub Actions to generate maintenance artifacts automatically:
+
+```yaml
+- uses: goonobu-dot/codex-maintainer-action@v0.1.0
+  with:
+    output-dir: codex-maintenance
+```
+
+The action runs this CLI and uploads `MAINTAINER_BRIEF.md`, `CODEX_TASKS.md`, and `codex-tasks.json` as workflow artifacts.
+
 ## Usage
 
 Generate a maintainer brief:
@@ -133,7 +145,7 @@ Codex Maintainer Kit focuses on a narrower workflow: creating a practical mainte
 
 ## Maintainer Workflow
 
-1. Run `codex-maintainer-kit brief`.
+1. Run `codex-maintainer-kit brief`, or run `codex-maintainer-action` in GitHub Actions.
 2. Review the generated checklist.
 3. Run `codex-maintainer-kit tasks`.
 4. Convert the generated task file or issue drafts into scoped maintenance work.
