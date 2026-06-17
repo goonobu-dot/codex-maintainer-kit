@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Updated CI to use minimal read permissions and Node 24-compatible GitHub Actions.
+- Added Dependabot coverage for GitHub Actions and Python packaging updates.
 - Removed local absolute paths from generated example artifacts.
 - Added a regression test so public generated examples do not include `/Users/` paths.
 
