@@ -21,3 +21,4 @@ def test_dependabot_covers_actions_and_python_packaging() -> None:
     assert 'package-ecosystem: "github-actions"' in dependabot
     assert 'package-ecosystem: "pip"' in dependabot
     assert 'interval: "monthly"' in dependabot
+    assert "version-update:semver-major" in dependabot
