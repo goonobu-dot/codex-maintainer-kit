@@ -1,6 +1,6 @@
 # Maintainer Brief
 
-Repository: `/Users/admin/Documents/skill/codex-maintainer-kit`
+Repository: `example/codex-maintainer-kit`
 Project hints: python
 Git state: `not_a_git_repository`
 

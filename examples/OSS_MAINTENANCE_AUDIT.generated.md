@@ -1,6 +1,6 @@
 # OSS Maintenance Audit
 
-Repository: `/Users/admin/Documents/skill/codex-maintainer-kit`
+Repository: `example/codex-maintainer-kit`
 Project hints: python
 Git state: `clean`
 Health score: **100/100** (`ready`)

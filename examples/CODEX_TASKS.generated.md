@@ -1,6 +1,6 @@
 # Codex Maintenance Tasks
 
-Repository: `/Users/admin/Documents/skill/codex-maintainer-kit`
+Repository: `example/codex-maintainer-kit`
 Project hints: python
 
 ## Task 1: Run Codex Maintenance Review

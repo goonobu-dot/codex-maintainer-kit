@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Removed local absolute paths from generated example artifacts.
+- Added a regression test so public generated examples do not include `/Users/` paths.
+
 ## 0.3.0 - 2026-06-15
 
 - Add `codex-maintainer-kit review` for human maintainer review briefs from current working-tree changes.
