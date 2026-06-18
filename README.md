@@ -13,6 +13,13 @@ New to this project? Start with a plain-language explanation:
 - [English beginner guide](docs/BEGINNER_GUIDE.md)
 - [日本語のやさしい解説](docs/BEGINNER_GUIDE.ja.md)
 
+## Start Here
+
+Choose the shortest path for your situation:
+
+- [Start Here](docs/START_HERE.md) / [まずここから](docs/START_HERE.ja.md): understand the CLI in the first 3 minutes.
+- [Use Cases](docs/USE_CASES.md) / [ユースケース](docs/USE_CASES.ja.md): choose when to run an audit, brief, task queue, or review report.
+
 ## Why This Exists
 
 Open source maintenance is rarely just writing new code. Maintainers spend time on:
