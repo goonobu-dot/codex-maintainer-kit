@@ -6,6 +6,13 @@ It scans a local repository, identifies basic maintenance gaps, and generates a 
 
 The goal is not to replace maintainers. The goal is to make recurring maintenance work easier to review, delegate, and verify.
 
+## Beginner-Friendly Guides
+
+New to this project? Start with a plain-language explanation:
+
+- [English beginner guide](docs/BEGINNER_GUIDE.md)
+- [日本語のやさしい解説](docs/BEGINNER_GUIDE.ja.md)
+
 ## Why This Exists
 
 Open source maintenance is rarely just writing new code. Maintainers spend time on:
